@@ -32,7 +32,7 @@ export default {
          */
         filterChanged() {
             this.updateQueryString({
-                [this.resource+'_filters']: btoa(JSON.stringify(this.currentFilters)),
+                [this.filterResourceName+'_filters']: btoa(JSON.stringify(this.currentFilters)),
             })
         },
 
@@ -50,11 +50,15 @@ export default {
     },
 
     computed: {
+        filterResourceName(){
+            return this.resource||''
+        },
+
         /**
          * Get the encoded filters from the query string.
          */
         encodedFilters() {
-            return this.$route.query[this.resource + '_filters'] || btoa(JSON.stringify({}))
+            return this.$route.query[this.filterResourceName + '_filters'] || btoa(JSON.stringify({}))
         },
     }
 }
