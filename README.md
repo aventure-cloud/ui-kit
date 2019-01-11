@@ -19,7 +19,7 @@ npm install --save @aventure-cloud/ui-kit
 import '@aventure-cloud/ui-kit';
 
 // Import vuejs instance as event bus
-import { EventBus } from '@aventure-cloud/ui-kit';
+import EventBus from '@aventure-cloud/ui-kit';
 ```
 
 
