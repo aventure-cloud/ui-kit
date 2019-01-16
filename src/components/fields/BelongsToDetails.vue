@@ -1,67 +1,86 @@
 <template>
     <span>
-        <router-link :to="{path: '/'+resource+'/'+id}" class="strong" v-if="text">
-            <avatar-img :src="avatar_url" width="30" v-if="avatar_url"/>
-            {{text}}
-        </router-link>
-        <span v-else>--</span>
+        <component
+                :is="link ? 'router-link' : 'span'"
+                :to="{path: '/'+resource+'/'+id}"
+                class="strong"
+        >
+            <slot>
+                {{text}}
+            </slot>
+        </component>
+
+        <span v-if="!text">--</span>
     </span>
 </template>
 
 <script>
     export default {
         props: {
+            /**
+             * The name of the linked resource
+             */
             resource: {
                 type: String,
                 required: true,
                 default: null
             },
 
+            /**
+             * The ID to the linked resource
+             */
             id: {
                 required: true,
                 default: null
             },
 
+            /**
+             * The object's key to use when display content
+             */
             label: {
                 type: String,
                 default: 'name'
+            },
+
+            /**
+             * Flag to link item details route
+             */
+            link: {
+                default: true
             }
         },
 
         data(){
             return {
-                avatar_url: null
+                item: {}
             }
         },
 
-        asyncComputed: {
+        computed: {
             text(){
-                if(this.resource === null || this.id === null)
-                    return
-
-                if(this.$store.state[this.resource].hasOwnProperty(this.id)) {
-                    let item = this.$store.getters.item({
-                        resource: this.resource,
-                        id: this.id
-                    })
-                    this.checkAvatar(item)
-                    return item[this.label]
-                }
-
-                return this.$store.dispatch('fetchItem', {
-                    resource: this.resource,
-                    id: this.id
-                }).then(item => {
-                    this.checkAvatar(item)
-                    return item[this.label]
-                })
+                return this.item[this.label]
             }
+        },
+
+        created(){
+            this.getItem()
         },
 
         methods: {
-            checkAvatar(item){
-                if(item.hasOwnProperty('avatar_url'))
-                    this.avatar_url = item.avatar_url
+            getItem(){
+                if(this.$store.state[this.resource].hasOwnProperty(this.id)) {
+                    this.item = this.$store.getters.item({
+                        resource: this.resource,
+                        id: this.id
+                    })
+                }
+
+                this.$store.dispatch('fetchItem', {
+                    resource: this.resource,
+                    id: this.id
+                }).then(item => {
+                    this.item =  item
+                })
             }
         }
     }
