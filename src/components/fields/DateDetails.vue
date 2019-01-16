@@ -1,5 +1,5 @@
 <template>
-    <span>{{ _.isEmpty(date) ? '--' : date | moment(format) }}</span>
+    <span>{{ formattedDate }}</span>
 </template>
 
 <script>
@@ -12,6 +12,14 @@
             format: {
                 type: String,
                 default: 'LL'
+            }
+        },
+
+        computed: {
+            formattedDate(){
+                return _.isEmpty(this.date)
+                    ? '--'
+                    : this.$moment.utc(this.date).local().format(this.format)
             }
         }
     }
