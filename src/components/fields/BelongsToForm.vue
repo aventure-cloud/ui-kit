@@ -32,7 +32,7 @@
 
         asyncComputed: {
             items(){
-                return this.$store.dispatch('search', {resource: this.resource})
+                return this.$store.dispatch('index', {resource: this.resource})
                     .then(items => items)
             }
         }

@@ -1,6 +1,6 @@
 {
   "name": "@aventure-cloud/ui-kit",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
