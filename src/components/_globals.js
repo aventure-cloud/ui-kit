@@ -1,6 +1,5 @@
-import Vue from 'vue';
-import EventBus from '../helpers/EventBus';
-import Filterable from '../mixins/Filterable'
+import Vue from 'vue'
+import EventBus from '../helpers/EventBus'
 
 
 let requireComponents = require.context('.', true, /\.vue$/);
@@ -17,6 +16,5 @@ requireComponents.keys().forEach(filename => {
 
 
 export {
-    EventBus,
-    Filterable
+    EventBus
 };
